@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "me.sharma.vardan.healtyfy"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        def BOOLEAN = "boolean"
+        def TRUE = "true"
+        def FALSE = "false"
+        def LOG_HTTP_REQUESTS = "LOG_HTTP_REQUESTS"
+        def ENABLE_VIEW_SERVER = "ENABLE_VIEW_SERVER"
+        def ENABLE_MOCK_CLIENT = "ENABLE_MOCK_CLIENT"
+        def DEBUG_IMAGES = "DEBUG_IMAGES"
+        release {
+            buildConfigField BOOLEAN, LOG_HTTP_REQUESTS, FALSE
+            buildConfigField BOOLEAN, ENABLE_VIEW_SERVER, FALSE
+            buildConfigField BOOLEAN, ENABLE_MOCK_CLIENT, FALSE
+            buildConfigField BOOLEAN, DEBUG_IMAGES, FALSE
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // todo always update proguard file when you add new dependencies
+        }
+        debug {
+            buildConfigField BOOLEAN, LOG_HTTP_REQUESTS, TRUE
+            buildConfigField BOOLEAN, ENABLE_VIEW_SERVER, TRUE
+            buildConfigField BOOLEAN, ENABLE_MOCK_CLIENT, TRUE
+            buildConfigField BOOLEAN, DEBUG_IMAGES, TRUE
+            applicationIdSuffix '.dev'  // changing package name for debug builds
+            versionNameSuffix '-dev'   //  changing version name for debug builds
+        }
+    }
+
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        testCompile 'junit:junit:4.12'
+        compile 'com.android.support:appcompat-v7:23.2.1'
+        compile "com.squareup.retrofit:retrofit:$rootProject.ext.retrofitVersion"
+        compile "com.squareup.retrofit:converter-gson:$rootProject.ext.retrofitVersion"
+        compile "com.squareup.retrofit:adapter-rxjava:$rootProject.ext.retrofitVersion"
+        compile "com.squareup.okhttp:logging-interceptor:$rootProject.ext.okhttpLogInterceptor"
+
+        compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+        compile "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
+        // rx dependencies
+        compile "io.reactivex:rxjava:$rootProject.ext.rxjavaVersion"
+        compile "io.reactivex:rxandroid:$rootProject.ext.rxAndroidVersion"
+        compile "com.jakewharton.rxbinding:rxbinding:$rootProject.ext.rxBindingVersion"
+//    compile "com.f2prateek.rx.preferences:rx-preferences:$rootProject.ext.rxSharedVersion"
+        compile "com.jakewharton.rxbinding:rxbinding-recyclerview-v7:$rootProject.ext.rxBindingVersion"
+
+        // misc dependencies
+        compile "com.squareup.picasso:picasso:$rootProject.ext.picassoVersion"
+        compile "uk.co.chrisjenx:calligraphy:$rootProject.ext.calligraphyVersion"
+        compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
+
+    }
+}
